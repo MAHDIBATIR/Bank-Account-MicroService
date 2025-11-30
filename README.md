@@ -100,6 +100,42 @@ Fonctionnalités :
 - Tester les API directement depuis l'interface web
 - Voir les schémas de données (modèles)
 
+## Spring Data Rest
+
+Spring Data Rest expose automatiquement les repositories via REST API.
+
+**Base URL**: http://localhost:8083/api/data
+
+### Endpoints générés automatiquement :
+```
+GET    /api/data/comptes              - Liste tous les comptes (avec pagination)
+GET    /api/data/comptes/{id}         - Récupérer un compte par ID
+POST   /api/data/comptes              - Créer un nouveau compte
+PUT    /api/data/comptes/{id}         - Mettre à jour un compte
+PATCH  /api/data/comptes/{id}         - Mise à jour partielle
+DELETE /api/data/comptes/{id}         - Supprimer un compte
+GET    /api/data/comptes/search       - Découvrir les méthodes de recherche
+```
+
+### Projections disponibles :
+- **soldeOnly**: Affiche uniquement ID, solde et devise
+  ```
+  GET /api/data/comptes?projection=soldeOnly
+  GET /api/data/comptes/{id}?projection=soldeOnly
+  ```
+
+- **fullCompte**: Affiche toutes les informations
+  ```
+  GET /api/data/comptes?projection=fullCompte
+  GET /api/data/comptes/{id}?projection=fullCompte
+  ```
+
+### Méthodes de recherche personnalisées :
+```
+GET /api/data/comptes/search/byType?type=COURANT
+GET /api/data/comptes/search/bySolde?solde=5000
+```
+
 ---
 
 ## Screenshots
@@ -125,6 +161,15 @@ Fonctionnalités :
 ![Swagger UI - Try it out](screens/etape7_swagger_try.png)
 ![Swagger UI - Réponse](screens/etape7_swagger_response.png)
 ![Swagger UI - Models](screens/etape7_swagger_models.png)
+
+### Étape 8 - Spring Data Rest avec Projections
+
+![Spring Data Rest - Root endpoint](screens/etape8_data_rest_root.png)
+![Spring Data Rest - Liste comptes](screens/etape8_data_rest_list.png)
+![Spring Data Rest - Projection soldeOnly](screens/etape8_projection_solde.png)
+![Spring Data Rest - Projection fullCompte](screens/etape8_projection_full.png)
+![Spring Data Rest - Search endpoints](screens/etape8_data_rest_search.png)
+![Spring Data Rest - Search byType](screens/etape8_search_by_type.png)
 
 ### H2 Console
 ![H2 Console - Connexion](screens/h2_console_connection.png)
