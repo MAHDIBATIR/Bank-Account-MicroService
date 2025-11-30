@@ -1,0 +1,53 @@
+type Query {
+    # Récupérer tous les comptes
+    allComptes: [Compte]
+
+    # Récupérer un compte par ID
+    compteById(id: ID!): Compte
+
+    # Récupérer les comptes par type
+    comptesByType(type: TypeCompte!): [Compte]
+
+    # Récupérer le total des soldes de tous les comptes
+    totalSoldes: Float
+}
+
+type Mutation {
+    # Créer un nouveau compte
+    createCompte(input: CompteInput!): Compte
+
+    # Mettre à jour un compte
+    updateCompte(id: ID!, input: CompteInput!): Compte
+
+    # Supprimer un compte
+    deleteCompte(id: ID!): Boolean
+
+    # Effectuer un dépôt
+    deposer(id: ID!, montant: Float!): Compte
+
+    # Effectuer un retrait
+    retirer(id: ID!, montant: Float!): Compte
+
+    # Effectuer un virement
+    virement(idSource: ID!, idDestination: ID!, montant: Float!): Boolean
+}
+
+type Compte {
+    id: ID!
+    dateCreation: String
+    solde: Float!
+    devise: String!
+    type: TypeCompte!
+}
+
+input CompteInput {
+    solde: Float!
+    devise: String!
+    type: TypeCompte!
+}
+
+enum TypeCompte {
+    COURANT
+    EPARGNE
+}
+

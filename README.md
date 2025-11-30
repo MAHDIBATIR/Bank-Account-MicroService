@@ -26,8 +26,11 @@ Ou utiliser le script de démarrage :
 - **Port**: 8083
 - **H2 Console**: http://localhost:8083/h2-console
 - **API Base URL**: http://localhost:8083/api
+- **Spring Data Rest**: http://localhost:8083/api/data
 - **Swagger UI**: http://localhost:8083/swagger-ui.html
 - **API Docs (JSON)**: http://localhost:8083/api-docs
+- **GraphiQL**: http://localhost:8083/graphiql
+- **GraphQL Endpoint**: http://localhost:8083/graphql
 
 ## Accès à H2 Console
 1. Démarrer l'application
@@ -100,6 +103,107 @@ Fonctionnalités :
 - Tester les API directement depuis l'interface web
 - Voir les schémas de données (modèles)
 
+## GraphQL API
+
+**GraphiQL Interface**: http://localhost:8083/graphiql
+
+### Queries disponibles :
+
+```graphql
+# Récupérer tous les comptes
+query {
+  allComptes {
+    id
+    dateCreation
+    solde
+    devise
+    type
+  }
+}
+
+# Récupérer un compte par ID
+query {
+  compteById(id: "votre-id") {
+    id
+    solde
+    devise
+    type
+  }
+}
+
+# Récupérer les comptes par type
+query {
+  comptesByType(type: COURANT) {
+    id
+    solde
+    devise
+  }
+}
+
+# Total des soldes
+query {
+  totalSoldes
+}
+```
+
+### Mutations disponibles :
+
+```graphql
+# Créer un nouveau compte
+mutation {
+  createCompte(input: {
+    solde: 5000.0
+    devise: "MAD"
+    type: COURANT
+  }) {
+    id
+    solde
+    devise
+    type
+  }
+}
+
+# Mettre à jour un compte
+mutation {
+  updateCompte(id: "votre-id", input: {
+    solde: 7500.0
+    devise: "EUR"
+    type: EPARGNE
+  }) {
+    id
+    solde
+    devise
+    type
+  }
+}
+
+# Effectuer un dépôt
+mutation {
+  deposer(id: "votre-id", montant: 1000.0) {
+    id
+    solde
+  }
+}
+
+# Effectuer un retrait
+mutation {
+  retirer(id: "votre-id", montant: 500.0) {
+    id
+    solde
+  }
+}
+
+# Effectuer un virement
+mutation {
+  virement(idSource: "id-source", idDestination: "id-destination", montant: 1000.0)
+}
+
+# Supprimer un compte
+mutation {
+  deleteCompte(id: "votre-id")
+}
+```
+
 ## Spring Data Rest
 
 Spring Data Rest expose automatiquement les repositories via REST API.
@@ -170,6 +274,17 @@ GET /api/data/comptes/search/bySolde?solde=5000
 ![Spring Data Rest - Projection fullCompte](screens/etape8_projection_full.png)
 ![Spring Data Rest - Search endpoints](screens/etape8_data_rest_search.png)
 ![Spring Data Rest - Search byType](screens/etape8_search_by_type.png)
+
+### Étape 11 - GraphQL API
+
+![GraphiQL Interface](screens/etape11_graphiql_interface.png)
+![GraphQL - Query allComptes](screens/etape11_query_all_comptes.png)
+![GraphQL - Query compteById](screens/etape11_query_by_id.png)
+![GraphQL - Query totalSoldes](screens/etape11_query_total.png)
+![GraphQL - Mutation createCompte](screens/etape11_mutation_create.png)
+![GraphQL - Mutation deposer](screens/etape11_mutation_deposer.png)
+![GraphQL - Mutation virement](screens/etape11_mutation_virement.png)
+![GraphQL - Schema Documentation](screens/etape11_schema_docs.png)
 
 ### H2 Console
 ![H2 Console - Connexion](screens/h2_console_connection.png)
